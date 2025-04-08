@@ -1,6 +1,6 @@
 const prompt = require('prompt-sync')();
 
-const CreateUserProfile = (fname, lname, userGender, userAge) => {
+const createUserProfile = (fname, lname, userGender, userAge) => {
     console.log('To complete creating your profile, you must enter email and password');
     
     let email = prompt('Email: ');
@@ -23,7 +23,7 @@ const CreateUserProfile = (fname, lname, userGender, userAge) => {
     }
 };
 
-const Login = (userProfile) => {
+const login = (userProfile) => {
     console.log('Logged in successfully!');
     console.log(`Name: ${userProfile.name}`);
     console.log(`Email: ${userProfile.email}`);
@@ -37,9 +37,9 @@ let lastName = prompt('Last Name: ');
 let gender = prompt('Gender: ');
 let age = parseInt(prompt('Age: '));
 
-const userProfile = CreateUserProfile(firstName, lastName, gender, age);
+const userProfile = createUserProfile(firstName, lastName, gender, age);
 
 if (userProfile) {
     let userAnswer = prompt('Do you want to login to your profile? (Yes/No): ').toLowerCase();
-    userAnswer === 'yes' ? Login(userProfile) : console.log('Okay, maybe later!');
+    userAnswer === 'yes' ? login(userProfile) : console.log('Okay, maybe later!');
 }

@@ -6,20 +6,20 @@ let usersProfiles = [
     {name:'Khalid', age:44, gender:'Male', email:'Khalid@gmail.com'}
 ];
 
-const GetAllUsers = () => {
+const getAllUsers = () => {
     usersProfiles.forEach((user) => {
         console.log(`Name: ${user.name}, Age: ${user.age}, Email: ${user.email}`);
     });
 };
 
-const GetUsersEmails = () => {
+const getUsersEmails = () => {
     let usersEmails = usersProfiles.map(user => user.email);
     usersEmails.forEach((email, index) => {
         console.log(`User ${index + 1} => ${email}`);
     });
 };
 
-const GetMaleUsers = () => {
+const getMaleUsers = () => {
     let maleUsers = usersProfiles.filter(user => user.gender === 'Male');
     maleUsers.forEach(user => {
         console.log(user.name);
@@ -27,10 +27,10 @@ const GetMaleUsers = () => {
 };
 
 console.log("All Users:");
-GetAllUsers();
+getAllUsers();
 
 console.log("Users Emails:");
-GetUsersEmails();
+getUsersEmails();
 
 console.log("Male Users:");
-GetMaleUsers();
+getMaleUsers();
