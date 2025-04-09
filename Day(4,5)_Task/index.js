@@ -53,3 +53,25 @@ async function showAllBooks() {
       console.log('Error:', error);
     }
   }
+
+  async function filterBooksByAuthorName(authorName){
+    try {
+      const books = await getAllBooks();
+      if(books && books.length > 0)
+      {
+        let authorNameBooks = books.filter(book =>
+          book.author_name && book.author_name.includes(authorName)
+        ).map(book => book.title);
+  
+        if(authorNameBooks.length>0){
+          authorNameBooks.forEach(book => {
+            console.log(`-- ${book}`);
+           });
+        }
+        else console.log('No books found for this author');
+      }
+     else console.log('No books found');
+    } catch (error) {
+      console.log('Error',error);
+    }
+  }
