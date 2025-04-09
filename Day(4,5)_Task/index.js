@@ -105,6 +105,8 @@ async function showAllBooks() {
   
     let userAnswer = prompt('Do you want to search for a specific book? If yes, enter the book name. If no, enter "no": ');
     if(userAnswer.toLocaleLowerCase() !== 'no') await showAllInfoAboutSpecificBook(userAnswer);
+    console.log(`-----------------------------------------\n`);
+    
     let numberUserAnswer =parseInt(prompt('You can filter books by:\n1. Author Name\n2. Published Year\nPlease enter 1 or 2: '));
     if (numberUserAnswer === 1) {
       let choice = prompt('Please enter the author name: ');
