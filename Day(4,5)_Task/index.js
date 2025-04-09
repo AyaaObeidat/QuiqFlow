@@ -35,3 +35,21 @@ async function showAllBooks() {
       console.log('Error:', error);
     }
   }
+
+  async function showAllInfoAboutSpecificBook(bookTitle) {
+    try {
+      const books = await getAllBooks();
+      if(books && books.length > 0){
+        let selectedBook = books.find(b => b.title === bookTitle);
+        if(selectedBook){
+          let authorName = selectedBook.author_name ?? " ";
+          let publishYear = selectedBook.first_publish_year ?? "0000";
+          console.log(`Title : ${selectedBook.title}\nAuthor Name : ${authorName}\nFirst Publish Year : ${publishYear}`)
+        }
+        else console.log('Book not found');
+      }
+      else  console.log('No books found');
+    } catch (error) {
+      console.log('Error:', error);
+    }
+  }
