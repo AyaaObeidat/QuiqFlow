@@ -75,3 +75,23 @@ async function showAllBooks() {
       console.log('Error',error);
     }
   }
+
+  async function filterBooksByPublishedYear(publishYear){
+    try {
+      const books = await getAllBooks();
+      if(books && books.length>0)
+      {
+         let publishYearBooks = books.filter(book => book.first_publish_year === publishYear)
+                                     .map(book => book.title);
+         if(publishYearBooks.length>0) {
+          publishYearBooks.forEach(book => {
+          console.log(`-- ${book}`);
+          });
+         }
+         else console.log('No books found for this year');
+      }
+      else console.log('No books found');
+    } catch (error) {
+      console.log('Error',error);
+    }
+  }
