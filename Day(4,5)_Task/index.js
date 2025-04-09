@@ -95,3 +95,25 @@ async function showAllBooks() {
       console.log('Error',error);
     }
   }
+
+
+  async function main(){
+  
+    console.log(`\n-- Book Library -- \n`);
+    await showAllBooks();
+    console.log(`-----------------------------------------\n`);
+  
+    let userAnswer = prompt('Do you want to search for a specific book? If yes, enter the book name. If no, enter "no": ');
+    if(userAnswer.toLocaleLowerCase() !== 'no') await showAllInfoAboutSpecificBook(userAnswer);
+    let numberUserAnswer =parseInt(prompt('You can filter books by:\n1. Author Name\n2. Published Year\nPlease enter 1 or 2: '));
+    if (numberUserAnswer === 1) {
+      let choice = prompt('Please enter the author name: ');
+      await filterBooksByAuthorName(choice);
+    } else if (numberUserAnswer === 2) {
+      let choice =parseInt(prompt('Please enter the published year: '));
+      await filterBooksByPublishedYear(choice);
+    } else {
+      console.log('Wrong choice');
+    }
+  }
+  main();
