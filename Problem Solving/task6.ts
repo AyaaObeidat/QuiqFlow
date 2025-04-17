@@ -28,6 +28,13 @@
  * Remember to look here http://visualgo.net/sorting
 */
 
+
+import * as readline from 'readline';
+const r1 = readline.createInterface({
+    input:process.stdin,
+    output:process.stdout
+});
+
 function bubbleSortRecFun(numbers:number[],count:number){
     if(count === numbers.length-1) return numbers;
         for(let j:number=0 ; j<numbers.length-1 ; j++){
@@ -39,6 +46,26 @@ function bubbleSortRecFun(numbers:number[],count:number){
      }
      return bubbleSortRecFun(numbers,++count);
 }
+const ask = async (r1:readline.Interface , question:string): Promise<string>=>{
+    return new Promise((resolve)=>{
+        r1.question(question,(answer)=>{
+            resolve(answer);
+        });
+    });
+}
 
-var a = [34, 203, 3, 746, 200, 984, 198, 764, 9];
-console.log(bubbleSortRecFun(a,0));
+async function main(){
+ console.log('Bubble Sort :');
+ let numbers :number[]=[];
+ let numbersSize : number = parseInt(await ask(r1,'Please enter the size of array : '));
+ for(let i=0 ; i<numbersSize ; i++){
+    let item:number = parseInt(await ask(r1,'item : '));
+    numbers.push(item);
+ }
+ r1.close();
+ let sortedNumbersArr = bubbleSortRecFun(numbers,0);
+ sortedNumbersArr.forEach(item=>{
+    console.log(item);
+ });
+}
+main();
