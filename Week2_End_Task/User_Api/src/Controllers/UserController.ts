@@ -87,12 +87,10 @@ export async function deleteUser(req: Request, res: Response, next: NextFunction
   try {
     const { id } = req.body;
     if (isNaN(id)) return next(new AppError('user id must be a number.', 400, true));
-    const user = users.find((u) => u.id === id);
-    if (!user) return next(new AppError('user not found.', 404, true));
-    if (user.userRequest === UserRequestStatus.PENDING) {
-      user.userRequest = UserRequestStatus.APPROVED;
-      res.status(200);
-    } else return next(new AppError('this user already approved.', 400, true));
+    const userIndex = users.findIndex((u) => u.id === id);
+    if (userIndex === -1) return next(new AppError('user not found.', 404, true));
+    users.splice(userIndex, 1);
+    res.status(200).json(users);
   } catch (error) {
     next(error);
   }

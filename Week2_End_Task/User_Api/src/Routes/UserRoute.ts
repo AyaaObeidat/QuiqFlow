@@ -13,17 +13,17 @@ import {
 
 const router = Router();
 
-router.get('/all', getAllUsers);
-router.get('/pending', getPendingUsers);
-router.get('/approved', getApprovedUsers);
+router.get('/allUsers', getAllUsers);
+router.get('/pendingUsers', getPendingUsers);
+router.get('/approvedUsers', getApprovedUsers);
 
 router.post('/id', getUserById);
-router.post('/add', addUser);
+router.post('/addUser', addUser);
 router.post('/login', login);
-router.post('/updateStatus', updateUserRequestStatus);
+router.post('/updateReqStatus', updateUserRequestStatus);
 
-router.patch('/update', UpdateUser);
+router.patch('/updateUser', UpdateUser);
 
-router.delete('/delete', deleteUser);
+router.delete('/deleteUser', deleteUser);
 
 export default router;
