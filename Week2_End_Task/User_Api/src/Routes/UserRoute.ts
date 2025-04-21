@@ -9,7 +9,7 @@ import {
   getUserById,
   login,
   deleteUser,
-} from '../Controllers/UserController';
+} from '@/Controllers/UserController';
 
 const router = Router();
 

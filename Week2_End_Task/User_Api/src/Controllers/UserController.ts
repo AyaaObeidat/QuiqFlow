@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { User, UserRequestStatus, users } from '../_Models/UserModel';
+import { User, UserRequestStatus, users } from '@/_Models/UserModel';
 import AppError from '../Errors/AppError';
 
 let idCounter: number = users.length;
