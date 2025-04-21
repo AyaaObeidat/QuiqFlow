@@ -1,29 +1,27 @@
 import { Router } from 'express';
-import {
-  getAllUsers,
-  getPendingUsers,
-  getApprovedUsers,
-  updateUserRequestStatus,
-  addUser,
-  UpdateUser,
-  getUserById,
-  login,
-  deleteUser,
-} from '@/Controllers/UserController';
+import { UserController } from '@/Controllers/UserController';
 
-const router = Router();
+export class UserRoute {
+  public router: Router;
+  private userController: UserController;
 
-router.get('/allUsers', getAllUsers);
-router.get('/pendingUsers', getPendingUsers);
-router.get('/approvedUsers', getApprovedUsers);
+  constructor(userController: UserController) {
+    this.userController = userController;
+    this.router = Router();
+    this.initializeRoutes();
+  }
 
-router.post('/id', getUserById);
-router.post('/addUser', addUser);
-router.post('/login', login);
-router.post('/updateReqStatus', updateUserRequestStatus);
+  private initializeRoutes() {
+    this.router.get('/allUsers', this.userController.getAllUsers);
+    this.router.get('/pendingUsers', this.userController.getPendingUsers);
+    this.router.get('/approvedUsers', this.userController.getApprovedUsers);
 
-router.patch('/updateUser', UpdateUser);
+    this.router.post('/id', this.userController.getUserById);
+    this.router.post('/addUser', this.userController.addUser);
+    this.router.post('/login', this.userController.login);
+    this.router.post('/updateReqStatus', this.userController.updateUserRequestStatus);
 
-router.delete('/deleteUser', deleteUser);
-
-export default router;
+    this.router.patch('/updateUser', this.userController.updateUser);
+    this.router.delete('/deleteUser', this.userController.deleteUser);
+  }
+}

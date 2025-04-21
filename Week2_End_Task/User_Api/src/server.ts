@@ -1,17 +1,40 @@
-import express from 'express';
-import errorHandlier from '@/Middlewares/ErrorHandling';
-import router from '@/Routes/UserRoute';
-import { User, users } from './_Models/UserModel';
+import express, { Application } from 'express';
+import errorHandler from '@/Middlewares/ErrorHandling';
+import { UserRoute } from '@/Routes/UserRoute';
+import { UserController } from '@/Controllers/UserController';
+import { User, users } from '@/_Models/UserModel';
 
-export class Server{
-  app = null;
-  usersList : User[] = users;
+export class Server {
+  private app: Application;
+  private port: number;
+  private usersList: User[];
 
+  constructor(port: number) {
+    this.app = express();
+    this.port = port;
+    this.usersList = users;
+    this.initializeMiddlewares();
+    this.initializeRoutes();
+    this.initializeErrorHandling();
+  }
+
+  private initializeMiddlewares() {
+    this.app.use(express.json());
+  }
+
+  private initializeRoutes() {
+    const userController = new UserController(this.usersList);
+    const userRoute = new UserRoute(userController);
+    this.app.use('/api/users', userRoute.router);
+  }
+
+  private initializeErrorHandling() {
+    this.app.use(errorHandler);
+  }
+
+  public start() {
+    this.app.listen(this.port, () => {
+      console.log(`Server running on http://localhost:${this.port}`);
+    });
+  }
 }
-const app = express();
-app.use(express.json());
-app.use('/api/users', router);
-app.use(errorHandlier);
-app.listen(3777, () => {
-  console.log('server running on http://localhost:3777');
-});
