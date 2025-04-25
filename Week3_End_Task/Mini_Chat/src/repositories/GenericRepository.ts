@@ -1,36 +1,28 @@
-import { Model, ModelStatic } from "sequelize";
-import { IGenericRepository } from "./iGenericRepository";
+import { Model, ModelStatic } from 'sequelize';
+import { IGenericRepository } from './iGenericRepository';
 
-export class GenericRepository<T extends Model,> implements IGenericRepository<T> {
+export class GenericRepository<T extends Model> implements IGenericRepository<T> {
   protected model: ModelStatic<T>;
 
   constructor(model: ModelStatic<T>) {
     this.model = model;
   }
-
-  async add(data: any): Promise<T> {
-    return this.model.create(data);
+  async addAsync(data: any): Promise<void> {
+    await this.model.create(data);
+  }
+  async getAllAsync(): Promise<T[]> {
+    return await this.model.findAll();
+  }
+  async getByIdAsync(id: number): Promise<T | null> {
+    return await this.model.findByPk(id);
+  }
+  async deleteAsync(entity: T): Promise<void> {
+    await this.model.destroy({
+      where: { id: (entity as any).id },
+    });
   }
 
-  
-  async getAll(): Promise<T[]> {
-    return this.model.findAll();
-  }
-
-  async getById(id: number): Promise<T | null> {
-    return this.model.findByPk(id);
-  }
-
-  async update(id: number, data: any): Promise<T | null> {
-    const item = await this.model.findByPk(id);
-    if (!item) return null;
-    return await item.update(data as any);
-  }
-
-  async delete(id: number): Promise<boolean> {
-    const item = await this.model.findByPk(id);
-    if (!item) return false;
-    await item.destroy();
-    return true;
+  async updateAsync(entity: T): Promise<void> {
+    await entity.update(entity);
   }
 }

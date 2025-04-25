@@ -1,4 +1,3 @@
-
 import DataBase from './database';
 import { SequelizeStorage, Umzug } from 'umzug';
 

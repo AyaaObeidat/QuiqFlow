@@ -26,6 +26,8 @@ export const up = async ({ context }: { context: Sequelize }) => {
         model: 'Rooms',
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     },
     createdAt: {
       type: DataTypes.DATE,
