@@ -1,12 +1,12 @@
-export interface RoomCreateParameters{
-    name: string;
+export interface RoomCreateParameters {
+  name: string;
 }
 
-export interface RoomGetByParameter{
-    id: number;
+export interface RoomGetByParameter {
+  id: number;
 }
 
-export interface RoomUpdateParameters{
-    id : number;
-    name: string;
+export interface RoomUpdateParameters {
+  id: number;
+  name: string;
 }

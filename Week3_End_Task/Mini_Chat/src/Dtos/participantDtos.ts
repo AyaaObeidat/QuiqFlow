@@ -1,8 +1,8 @@
-export interface ParticipantCreateParameters{
-    userId: number;
-    roomId: number;
+export interface ParticipantCreateParameters {
+  userId: number;
+  roomId: number;
 }
 
-export interface ParticipantGetByParameter{
-    id: number;
+export interface ParticipantGetByParameter {
+  id: number;
 }
