@@ -17,7 +17,7 @@ export class MessageController {
     try {
       const parameters: MessageCreateParameters = req.body;
       if (!parameters.content || !parameters.roomId || !parameters.userId)
-        return next(new AppError('Message name ,user id and room id are required', 400, true));
+        return next(new AppError('Message content, userId, and roomId are required.', 400, true));
 
       const result = await this.messageService.addMessageAsync(parameters);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
