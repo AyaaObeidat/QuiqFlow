@@ -4,52 +4,73 @@ import { RoomRepository } from '../repositories/roomRepository';
 
 export class RoomService {
   private readonly roomRepository: RoomRepository;
+
   constructor() {
     this.roomRepository = new RoomRepository();
   }
 
   public async addRoomAsync(parameters: RoomCreateParameters): Promise<string | null> {
-    const rooms = await this.roomRepository.getAllAsync();
-    const roomsChecked = rooms.filter((r) => r.name === parameters.name);
-    if (roomsChecked.length > 0) return 'This room already exist';
+    try {
+      const rooms = await this.roomRepository.getAllAsync();
+      const roomsChecked = rooms.filter((r) => r.name === parameters.name);
+      if (roomsChecked.length > 0) return 'Room already exists';
 
-    await this.roomRepository.addAsync(parameters);
-    return null;
+      await this.roomRepository.addAsync(parameters);
+      return null;
+    } catch (error) {
+      console.error('Error in RoomService.addRoomAsync:', error);
+      throw error;
+    }
   }
 
   public async getAllRoomsAsync(): Promise<string | Room[]> {
-    const rooms = await this.roomRepository.getAllAsync();
-    if (rooms.length === 0) return 'Not found rooms';
+    try {
+      const rooms = await this.roomRepository.getAllAsync();
+      if (rooms.length === 0) return 'No rooms found';
 
-    return await this.roomRepository.getAllAsync();
+      return rooms;
+    } catch (error) {
+      console.error('Error in RoomService.getAllRoomsAsync:', error);
+      throw error;
+    }
   }
 
   public async getRoomByIdAsync(parameter: RoomGetByParameter): Promise<string | Room> {
-    if (!isNaN(parameter.id)) return 'Id must be the number';
+    try {
+      const room = await this.roomRepository.getByIdAsync(parameter.id);
+      if (room === null) return 'Room not found';
 
-    const room = await this.roomRepository.getByIdAsync(parameter.id);
-    if (room === null) return 'room not found';
-    return room;
+      return room;
+    } catch (error) {
+      console.error('Error in RoomService.getRoomByIdAsync:', error);
+      throw error;
+    }
   }
 
   public async deleteRoomAsync(parameter: RoomGetByParameter): Promise<string | null> {
-    if (!isNaN(parameter.id)) return 'Id must be the number';
+    try {
+      const room = await this.roomRepository.getByIdAsync(parameter.id);
+      if (room === null) return 'Room not found';
 
-    const room = await this.roomRepository.getByIdAsync(parameter.id);
-    if (room === null) return 'room not found';
-
-    await this.roomRepository.deleteAsync(room);
-    return null;
+      await this.roomRepository.deleteAsync(room);
+      return null;
+    } catch (error) {
+      console.error('Error in RoomService.deleteRoomAsync:', error);
+      throw error;
+    }
   }
 
   public async UpdateRoomAsync(parameters: RoomUpdateParameters): Promise<string | null> {
-    if (!isNaN(parameters.id)) return 'Id must be the number';
+    try {
+      const room = await this.roomRepository.getByIdAsync(parameters.id);
+      if (room === null) return 'Room not found';
 
-    const room = await this.roomRepository.getByIdAsync(parameters.id);
-    if (room === null) return 'room not found';
-
-    room.name = parameters.name || room.name;
-    await this.roomRepository.updateAsync(room);
-    return null;
+      room.name = parameters.name || room.name;
+      await this.roomRepository.updateAsync(room);
+      return null;
+    } catch (error) {
+      console.error('Error in RoomService.UpdateRoomAsync:', error);
+      throw error;
+    }
   }
 }

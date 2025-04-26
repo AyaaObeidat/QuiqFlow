@@ -18,10 +18,10 @@ export class RoomController {
       if (typeof result === 'string') return next(new AppError(result, 400, true));
 
       res.status(200).json({
-        message: 'Add new room => done',
+        message: 'Room added successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
@@ -32,50 +32,53 @@ export class RoomController {
 
       res.status(200).json(result);
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async getRoomByIdAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: RoomGetByParameter = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.roomService.getRoomByIdAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json(result);
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async deleteRoomAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: RoomGetByParameter = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.roomService.deleteRoomAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json({
-        message: 'Delete room => done',
+        message: 'Room deleted successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async updateRoomAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: RoomUpdateParameters = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.roomService.UpdateRoomAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json({
-        message: 'Update room => done',
+        message: 'Room updated successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 }

@@ -23,10 +23,10 @@ export class MessageController {
       if (typeof result === 'string') return next(new AppError(result, 400, true));
 
       res.status(200).json({
-        message: 'Add new message => done',
+        message: 'Message added successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
@@ -37,50 +37,53 @@ export class MessageController {
 
       res.status(200).json(result);
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async getMessageByIdAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: MessageGetByParameter = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be a valid number.', 400, true));
 
       const result = await this.messageService.getMessageByIdAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json(result);
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async deleteMessageAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: MessageGetByParameter = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be a valid number.', 400, true));
 
       const result = await this.messageService.deleteMessageAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json({
-        message: 'Delete message => done',
+        message: 'Message deleted successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async updateMessageAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: MessageUpdateParameters = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be a valid number.', 400, true));
 
       const result = await this.messageService.UpdateMessageAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json({
-        message: 'Update message => done',
+        message: 'Message updated successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 }

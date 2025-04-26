@@ -11,6 +11,8 @@ export class ParticipantController {
   public async addParticipantAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameters: ParticipantCreateParameters = req.body;
+      if (isNaN(Number(parameters.userId || isNaN(Number(parameters.roomId)))))
+        return next(new AppError('Id must be a valid number.', 400, true));
       if (!parameters.roomId || !parameters.userId)
         return next(new AppError('User id and room id are required', 400, true));
 
@@ -18,10 +20,10 @@ export class ParticipantController {
       if (typeof result === 'string') return next(new AppError(result, 400, true));
 
       res.status(200).json({
-        message: 'Add new participant => done',
+        message: 'Participant added successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
@@ -32,35 +34,37 @@ export class ParticipantController {
 
       res.status(200).json(result);
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async getParticipantByIdAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: ParticipantGetByParameter = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.participantService.getParticipantByIdAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json(result);
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 
   public async deleteParticipantAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: ParticipantGetByParameter = req.body;
-      if (!isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(Number(parameter.id)))
+        return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.participantService.deleteParticipantAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
       res.status(200).json({
-        message: 'Delete participant => done',
+        message: 'Participant deleted successfully.',
       });
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   }
 }

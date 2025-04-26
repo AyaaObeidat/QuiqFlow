@@ -9,33 +9,44 @@ export class RoomRepository extends GenericRepository<Room> {
   }
 
   async getAllAsync(): Promise<Room[]> {
-    return await Room.findAll({
-      include: [
-        {
-          model: Message,
-          as: 'messages',
-        },
-        {
-          model: User,
-          as: 'users',
-          through: { attributes: [] },
-        },
-      ],
-    });
+    try {
+      return await Room.findAll({
+        include: [
+          {
+            model: Message,
+            as: 'messages',
+          },
+          {
+            model: User,
+            as: 'users',
+            through: { attributes: [] },
+          },
+        ],
+      });
+    } catch (error) {
+      console.error('Error in RoomRepository.getAllAsync:', error);
+      throw error;
+    }
   }
+
   async getByIdAsync(id: number): Promise<Room | null> {
-    return await Room.findByPk(id, {
-      include: [
-        {
-          model: Message,
-          as: 'messages',
-        },
-        {
-          model: User,
-          as: 'users',
-          through: { attributes: [] },
-        },
-      ],
-    });
+    try {
+      return await Room.findByPk(id, {
+        include: [
+          {
+            model: Message,
+            as: 'messages',
+          },
+          {
+            model: User,
+            as: 'users',
+            through: { attributes: [] },
+          },
+        ],
+      });
+    } catch (error) {
+      console.error('Error in RoomRepository.getByIdAsync:', error);
+      throw error;
+    }
   }
 }

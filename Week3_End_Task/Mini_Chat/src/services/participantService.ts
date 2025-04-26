@@ -1,5 +1,4 @@
 import { ParticipantRepository } from './../repositories/participantRepository';
-import { MessageRepository } from '../repositories/messageRepository';
 import { RoomRepository } from '../repositories/roomRepository';
 import { UserRepository } from '../repositories/userRepository';
 import { ParticipantCreateParameters, ParticipantGetByParameter } from '../Dtos/participantDtos';
@@ -9,8 +8,9 @@ export class ParticipantService {
   private readonly participantRepository: ParticipantRepository;
   private readonly userRepository: UserRepository;
   private readonly roomRepository: RoomRepository;
+
   constructor() {
-    this.participantRepository = new MessageRepository();
+    this.participantRepository = new ParticipantRepository(); 
     this.userRepository = new UserRepository();
     this.roomRepository = new RoomRepository();
   }
@@ -18,42 +18,60 @@ export class ParticipantService {
   public async addParticipantAsync(
     parameters: ParticipantCreateParameters
   ): Promise<string | null> {
-    const user = await this.userRepository.getByIdAsync(parameters.userId);
-    if (user === null) return 'User not found';
+    try {
+      const user = await this.userRepository.getByIdAsync(parameters.userId);
+      if (user === null) return 'User not found';
 
-    const room = await this.roomRepository.getByIdAsync(parameters.roomId);
-    if (room === null) return 'Room not found';
+      const room = await this.roomRepository.getByIdAsync(parameters.roomId);
+      if (room === null) return 'Room not found';
 
-    await this.participantRepository.addAsync(parameters);
-    return null;
+      await this.participantRepository.addAsync(parameters);
+      return null;
+    } catch (error) {
+      console.error(error);
+      return 'An error occurred while adding the participant';
+    }
   }
 
   public async getAllParticipantsAsync(): Promise<string | Participant[]> {
-    const participants = await this.participantRepository.getAllAsync();
-    if (participants.length === 0) return 'Not found participants';
+    try {
+      const participants = await this.participantRepository.getAllAsync();
+      if (participants.length === 0) return 'No participants found';
 
-    return await this.participantRepository.getAllAsync();
+      return participants;
+    } catch (error) {
+      console.error(error);
+      return 'An error occurred while fetching participants';
+    }
   }
 
   public async getParticipantByIdAsync(
     parameter: ParticipantGetByParameter
   ): Promise<string | Participant> {
-    if (!isNaN(parameter.id)) return 'Id must be the number';
+    try {
 
-    const participant = await this.participantRepository.getByIdAsync(parameter.id);
-    if (participant === null) return 'Participant not found';
-    return participant;
+      const participant = await this.participantRepository.getByIdAsync(parameter.id);
+      if (participant === null) return 'Participant not found';
+      return participant;
+    } catch (error) {
+      console.error(error);
+      return 'An error occurred while fetching the participant';
+    }
   }
 
   public async deleteParticipantAsync(
     parameter: ParticipantGetByParameter
   ): Promise<string | null> {
-    if (!isNaN(parameter.id)) return 'Id must be the number';
+    try {
+      
+      const participant = await this.participantRepository.getByIdAsync(parameter.id);
+      if (participant === null) return 'Participant not found';
 
-    const participant = await this.participantRepository.getByIdAsync(parameter.id);
-    if (participant === null) return 'participant not found';
-
-    await this.participantRepository.deleteAsync(participant);
-    return null;
+      await this.participantRepository.deleteAsync(participant);
+      return null;
+    } catch (error) {
+      console.error(error);
+      return 'An error occurred while deleting the participant';
+    }
   }
 }

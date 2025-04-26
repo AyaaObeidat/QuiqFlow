@@ -7,22 +7,51 @@ export class GenericRepository<T extends Model> implements IGenericRepository<T>
   constructor(model: ModelStatic<T>) {
     this.model = model;
   }
+
   async addAsync(data: any): Promise<void> {
-    await this.model.create(data);
+    try {
+      await this.model.create(data);
+    } catch (error) {
+      console.error('Error in addAsync:', error);
+      throw error;
+    }
   }
+
   async getAllAsync(): Promise<T[]> {
-    return await this.model.findAll();
+    try {
+      return await this.model.findAll();
+    } catch (error) {
+      console.error('Error in getAllAsync:', error);
+      throw error;
+    }
   }
+
   async getByIdAsync(id: number): Promise<T | null> {
-    return await this.model.findByPk(id);
+    try {
+      return await this.model.findByPk(id);
+    } catch (error) {
+      console.error('Error in getByIdAsync:', error);
+      throw error;
+    }
   }
+
   async deleteAsync(entity: T): Promise<void> {
-    await this.model.destroy({
-      where: { id: (entity as any).id },
-    });
+    try {
+      await this.model.destroy({
+        where: { id: (entity as any).id },
+      });
+    } catch (error) {
+      console.error('Error in deleteAsync:', error);
+      throw error;
+    }
   }
 
   async updateAsync(entity: T): Promise<void> {
-    await entity.update(entity);
+    try {
+      await entity.update(entity);
+    } catch (error) {
+      console.error('Error in updateAsync:', error);
+      throw error;
+    }
   }
 }
