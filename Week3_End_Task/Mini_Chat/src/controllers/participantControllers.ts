@@ -11,7 +11,7 @@ export class ParticipantController {
   public async addParticipantAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameters: ParticipantCreateParameters = req.body;
-      if (isNaN(Number(parameters.userId || isNaN(Number(parameters.roomId)))))
+      if (isNaN(parameters.userId) || isNaN(parameters.roomId))
         return next(new AppError('Id must be a valid number.', 400, true));
       if (!parameters.roomId || !parameters.userId)
         return next(new AppError('User id and room id are required', 400, true));
@@ -41,8 +41,7 @@ export class ParticipantController {
   public async getParticipantByIdAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: ParticipantGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.participantService.getParticipantByIdAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
@@ -55,8 +54,7 @@ export class ParticipantController {
   public async deleteParticipantAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: ParticipantGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.participantService.deleteParticipantAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));

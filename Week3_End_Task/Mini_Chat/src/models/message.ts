@@ -1,5 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import DataBase from '../config/database';
+import User from './user';
+import Room from './room';
 
 interface MessageAttributes {
   id: number;
@@ -18,7 +20,7 @@ class Message
   userId!: number;
   roomId!: number;
 
-  static associate(models: any) {
+  static associate(models: { User: typeof User; Room: typeof Room }) {
     Message.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',

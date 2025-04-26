@@ -11,11 +11,11 @@ export class UserService {
 
   public async addUserAsync(parameters: UserCreateParameters): Promise<string | null> {
     try {
-      const users = await this.userRepository.getAllAsync();
-      const usersChecked = users.filter(
-        (u) => u.name === parameters.name && u.email === parameters.email
-      );
-      if (usersChecked.length > 0) return 'User already exists';
+      // const users = await this.userRepository.getAllAsync();
+      // const usersChecked = users.filter(
+      //   (u) => u.name === parameters.name && u.email === parameters.email
+      // );
+      // if (usersChecked.length > 0) return 'User already exists';
 
       await this.userRepository.addAsync(parameters);
       return null;

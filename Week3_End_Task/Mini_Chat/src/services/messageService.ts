@@ -63,7 +63,6 @@ export class MessageService {
 
   public async deleteMessageAsync(parameter: MessageGetByParameter): Promise<string | null> {
     try {
-     
       const message = await this.messageRepository.getByIdAsync(parameter.id);
       if (message === null) return 'Message not found';
 
@@ -77,7 +76,6 @@ export class MessageService {
 
   public async UpdateMessageAsync(parameters: MessageUpdateParameters): Promise<string | null> {
     try {
-      
       const message = await this.messageRepository.getByIdAsync(parameters.id);
       if (message === null) return 'Message not found';
 

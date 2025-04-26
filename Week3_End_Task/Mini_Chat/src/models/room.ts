@@ -1,5 +1,8 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import DataBase from '../config/database';
+import Message from './message';
+import Participant from './participants';
+import User from './user';
 interface RoomAttributes {
   id: number;
   name: string;
@@ -10,7 +13,11 @@ class Room extends Model<RoomAttributes, RoomCreationAttributes> implements Room
   id!: number;
   name!: string;
 
-  static associate(models: any) {
+  static associate(models: {
+    User: typeof User;
+    Message: typeof Message;
+    Participant: typeof Participant;
+  }) {
     Room.hasMany(models.Message, {
       foreignKey: 'roomId',
       as: 'messages',

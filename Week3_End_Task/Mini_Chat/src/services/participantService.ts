@@ -10,7 +10,7 @@ export class ParticipantService {
   private readonly roomRepository: RoomRepository;
 
   constructor() {
-    this.participantRepository = new ParticipantRepository(); 
+    this.participantRepository = new ParticipantRepository();
     this.userRepository = new UserRepository();
     this.roomRepository = new RoomRepository();
   }
@@ -49,7 +49,6 @@ export class ParticipantService {
     parameter: ParticipantGetByParameter
   ): Promise<string | Participant> {
     try {
-
       const participant = await this.participantRepository.getByIdAsync(parameter.id);
       if (participant === null) return 'Participant not found';
       return participant;
@@ -63,7 +62,6 @@ export class ParticipantService {
     parameter: ParticipantGetByParameter
   ): Promise<string | null> {
     try {
-      
       const participant = await this.participantRepository.getByIdAsync(parameter.id);
       if (participant === null) return 'Participant not found';
 

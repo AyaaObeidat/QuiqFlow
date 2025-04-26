@@ -1,14 +1,22 @@
-import { MessageController } from './../controllers/messageController';
+// // import { MessageController } from './../controllers/messageController';
 import { Router } from 'express';
 import UserController from '../controllers/userController';
 import { RoomController } from '../controllers/roomControllers';
 import { ParticipantController } from '../controllers/participantControllers';
+import { MessageController } from '../controllers/messageController';
 
 export class BaseRoute {
   public router: Router;
-
+  userController: UserController;
+  roomController: RoomController;
+  messageController: MessageController;
+  participantController: ParticipantController;
   constructor() {
     this.router = Router();
+    this.userController = new UserController();
+    this.roomController = new RoomController();
+    this.messageController = new MessageController();
+    this.participantController = new ParticipantController();
     this.initializeUserRoutes();
     this.initializeRoomRoutes();
     this.initializeMessageRoutes();
@@ -16,35 +24,70 @@ export class BaseRoute {
   }
 
   private initializeUserRoutes() {
-    const userController = new UserController();
-    this.router.post('/addUser', userController.addUserAsync);
-    this.router.get('/getAllUsers', userController.getAllUsersAsync);
-    this.router.post('/getUserById', userController.getUserByIdAsync);
-    this.router.patch('/updateUser', userController.UpdateUserAsync);
-    this.router.delete('/deleteUser', userController.deleteUserAsync);
+    this.router.post('/addUser', this.userController.addUserAsync.bind(this.userController));
+    this.router.get('/getAllUsers', this.userController.getAllUsersAsync.bind(this.userController));
+    this.router.post(
+      '/getUserById',
+      this.userController.getUserByIdAsync.bind(this.userController)
+    );
+    this.router.patch('/updateUser', this.userController.UpdateUserAsync.bind(this.userController));
+    this.router.delete(
+      '/deleteUser',
+      this.userController.deleteUserAsync.bind(this.userController)
+    );
   }
 
   private initializeRoomRoutes() {
-    const roomController = new RoomController();
-    this.router.post('/addRoom', roomController.addUserAsync);
-    this.router.get('/getAllRooms', roomController.getAllRoomsAsync);
-    this.router.post('/getRoomById', roomController.getRoomByIdAsync);
-    this.router.patch('/updateRoom', roomController.updateRoomAsync);
-    this.router.delete('/deleteRoom', roomController.deleteRoomAsync);
+    this.router.post('/addRoom', this.roomController.addRoomAsync.bind(this.roomController));
+    this.router.get('/getAllRooms', this.roomController.getAllRoomsAsync.bind(this.roomController));
+    this.router.post(
+      '/getRoomById',
+      this.roomController.getRoomByIdAsync.bind(this.roomController)
+    );
+    this.router.patch('/updateRoom', this.roomController.updateRoomAsync.bind(this.roomController));
+    this.router.delete(
+      '/deleteRoom',
+      this.roomController.deleteRoomAsync.bind(this.roomController)
+    );
   }
   private initializeMessageRoutes() {
-    const messageController = new MessageController();
-    this.router.post('/addMessage', messageController.addMessageAsync);
-    this.router.get('/getAllMessages', messageController.getAllMessagesAsync);
-    this.router.post('/getMessageById', messageController.getMessageByIdAsync);
-    this.router.patch('/updateMessage', messageController.updateMessageAsync);
-    this.router.delete('/deleteMessage', messageController.deleteMessageAsync);
+    this.router.post(
+      '/addMessage',
+      this.messageController.addMessageAsync.bind(this.messageController)
+    );
+    this.router.get(
+      '/getAllMessages',
+      this.messageController.getAllMessagesAsync.bind(this.messageController)
+    );
+    this.router.post(
+      '/getMessageById',
+      this.messageController.getMessageByIdAsync.bind(this.messageController)
+    );
+    this.router.patch(
+      '/updateMessage',
+      this.messageController.updateMessageAsync.bind(this.messageController)
+    );
+    this.router.delete(
+      '/deleteMessage',
+      this.messageController.deleteMessageAsync.bind(this.messageController)
+    );
   }
   private initializeParticipantRoutes() {
-    const participantController = new ParticipantController();
-    this.router.post('/addParticipant', participantController.addParticipantAsync);
-    this.router.get('/getAllParticipants', participantController.getAllParticipantsAsync);
-    this.router.post('/getParticipantById', participantController.getParticipantByIdAsync);
-    this.router.delete('/deleteParticipant', participantController.deleteParticipantAsync);
+    this.router.post(
+      '/addParticipant',
+      this.participantController.addParticipantAsync.bind(this.participantController)
+    );
+    this.router.get(
+      '/getAllParticipants',
+      this.participantController.getAllParticipantsAsync.bind(this.participantController)
+    );
+    this.router.post(
+      '/getParticipantById',
+      this.participantController.getParticipantByIdAsync.bind(this.participantController)
+    );
+    this.router.delete(
+      '/deleteParticipant',
+      this.participantController.deleteParticipantAsync.bind(this.participantController)
+    );
   }
 }

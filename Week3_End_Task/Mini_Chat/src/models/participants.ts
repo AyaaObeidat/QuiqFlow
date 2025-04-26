@@ -1,5 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import DataBase from '../config/database';
+import Room from './room';
+import User from './user';
 
 interface ParticipantAttributes {
   id: number;
@@ -15,7 +17,17 @@ class Participant
   id!: number;
   userId!: number;
   roomId!: number;
+  static associate(models: { User: typeof User; Room: typeof Room }) {
+    Participant.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
 
+    Participant.belongsTo(models.Room, {
+      foreignKey: 'roomId',
+      as: 'room',
+    });
+  }
   static initModel() {
     Participant.init(
       {

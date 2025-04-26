@@ -40,8 +40,7 @@ class UserController {
   async getUserByIdAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: UserGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.userService.getUserByIdAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
@@ -54,8 +53,7 @@ class UserController {
   async deleteUserAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: UserGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.userService.deleteUserAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
@@ -70,8 +68,7 @@ class UserController {
   async UpdateUserAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameters: UserUpdateParameters = req.body;
-      if (isNaN(Number(parameters.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameters.id)) return next(new AppError('Id must be the number', 400, true));
 
       if (!parameters.name && !parameters)
         return next(new AppError('You must provide at least one field to update.', 400, true));

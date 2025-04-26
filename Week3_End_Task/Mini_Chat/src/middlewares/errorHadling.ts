@@ -1,7 +1,7 @@
 import { ErrorRequestHandler } from 'express';
 import AppError from '../errors/appError';
 
-const errorHandler:ErrorRequestHandler = async (err, req, res): Promise<void> => {
+const errorHandler: ErrorRequestHandler = async (err, req, res): Promise<void> => {
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       status: 'error',

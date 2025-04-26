@@ -9,7 +9,7 @@ export class RoomController {
     this.roomService = new RoomService();
   }
 
-  public async addUserAsync(req: Request, res: Response, next: NextFunction) {
+  public async addRoomAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameters: RoomCreateParameters = req.body;
       if (!parameters.name) return next(new AppError('Room name is required', 400, true));
@@ -39,8 +39,7 @@ export class RoomController {
   public async getRoomByIdAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: RoomGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.roomService.getRoomByIdAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
@@ -53,8 +52,7 @@ export class RoomController {
   public async deleteRoomAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: RoomGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.roomService.deleteRoomAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
@@ -69,8 +67,7 @@ export class RoomController {
   public async updateRoomAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: RoomUpdateParameters = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be the number', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be the number', 400, true));
 
       const result = await this.roomService.UpdateRoomAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));

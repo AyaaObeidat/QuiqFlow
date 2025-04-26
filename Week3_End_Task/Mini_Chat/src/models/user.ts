@@ -1,5 +1,8 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import DataBase from '../config/database';
+import Message from './message';
+import Participant from './participants';
+import Room from './room';
 
 interface UserAttributes {
   id: number;
@@ -13,7 +16,11 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   name!: string;
   email!: string;
 
-  static associate(models: any) {
+  static associate(models: {
+    Message: typeof Message;
+    Room: typeof Room;
+    Participant: typeof Participant;
+  }) {
     User.hasMany(models.Message, {
       foreignKey: 'userId',
       as: 'messages',
@@ -51,4 +58,5 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
     );
   }
 }
+
 export default User;

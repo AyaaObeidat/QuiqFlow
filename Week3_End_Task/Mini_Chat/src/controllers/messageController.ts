@@ -44,8 +44,7 @@ export class MessageController {
   public async getMessageByIdAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: MessageGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be a valid number.', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be a valid number.', 400, true));
 
       const result = await this.messageService.getMessageByIdAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
@@ -58,8 +57,7 @@ export class MessageController {
   public async deleteMessageAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: MessageGetByParameter = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be a valid number.', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be a valid number.', 400, true));
 
       const result = await this.messageService.deleteMessageAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
@@ -74,8 +72,7 @@ export class MessageController {
   public async updateMessageAsync(req: Request, res: Response, next: NextFunction) {
     try {
       const parameter: MessageUpdateParameters = req.body;
-      if (isNaN(Number(parameter.id)))
-        return next(new AppError('Id must be a valid number.', 400, true));
+      if (isNaN(parameter.id)) return next(new AppError('Id must be a valid number.', 400, true));
 
       const result = await this.messageService.UpdateMessageAsync(parameter);
       if (typeof result === 'string') return next(new AppError(result, 400, true));
